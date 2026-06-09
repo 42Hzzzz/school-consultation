@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>校园咨询服务平台</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>校园咨询服务平台</h1>
+      <p>查看各部门、辅导员等工作时间与空闲状态，在线提交咨询申请</p>
+      <div class="live-clock" id="liveClock">加载中…</div>
+      <nav class="nav-links">
+        <a href="/" class="active">学生咨询</a>
+        <a href="/admin">管理后台</a>
+      </nav>
+    </header>
+
+    <div id="alertBox" class="alert"></div>
+
+    <section class="card">
+      <h2>选择部门</h2>
+      <div class="filter-chips" id="deptFilters">
+        <button type="button" class="chip active" data-dept="">全部部门</button>
+      </div>
+      <div class="dept-grid" id="deptGrid"></div>
+    </section>
+
+    <section class="card">
+      <h2>咨询对象</h2>
+      <div class="toolbar">
+        <div class="form-group flex-grow">
+          <label for="searchInput">搜索姓名、职位或专长</label>
+          <input type="search" id="searchInput" placeholder="例如：辅导员、心理咨询、奖助学金">
+        </div>
+        <div class="form-group">
+          <label>&nbsp;</label>
+          <label style="font-weight: normal; display: flex; align-items: center; gap: 8px; cursor: pointer;">
+            <input type="checkbox" id="consultableOnly"> 仅显示可咨询
+          </label>
+        </div>
+      </div>
+      <div class="staff-list" id="staffList">
+        <div class="empty-state">正在加载…</div>
+      </div>
+    </section>
+
+    <section class="card consult-panel" id="consultPanel">
+      <h2>提交咨询申请</h2>
+      <div class="selected-staff-banner" id="selectedBanner"></div>
+      <form id="consultForm">
+        <input type="hidden" id="staffId" name="staff_id">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="studentName">姓名 <span class="required">*</span></label>
+            <input type="text" id="studentName" required placeholder="请输入姓名">
+          </div>
+          <div class="form-group">
+            <label for="studentId">学号 <span class="required">*</span></label>
+            <input type="text" id="studentId" required placeholder="如：20220101001">
+          </div>
+          <div class="form-group">
+            <label for="contact">联系方式</label>
+            <input type="text" id="contact" placeholder="手机或微信，便于老师回复">
+          </div>
+          <div class="form-group">
+            <label for="preferredTime">期望咨询时间</label>
+            <input type="datetime-local" id="preferredTime">
+          </div>
+          <div class="form-group full-width">
+            <label for="topic">咨询主题 <span class="required">*</span></label>
+            <input type="text" id="topic" required placeholder="简要说明您要咨询的问题">
+          </div>
+          <div class="form-group full-width">
+            <label for="message">详细说明</label>
+            <textarea id="message" placeholder="可补充背景信息，方便老师提前了解情况"></textarea>
+          </div>
+        </div>
+        <div style="margin-top: 16px; display: flex; gap: 12px;">
+          <button type="submit" class="btn btn-primary" id="submitBtn">提交咨询</button>
+          <button type="button" class="btn btn-secondary" id="cancelConsult">取消</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <script src="{{ url_for('static', filename='index.js') }}"></script>
+</body>
+</html>

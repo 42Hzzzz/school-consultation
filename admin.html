@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>管理后台 - 校园咨询服务平台</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container container-wide">
+    <header>
+      <h1>咨询管理后台</h1>
+      <p>更新老师/辅导员空闲状态，处理学生咨询申请</p>
+      <div class="live-clock" id="liveClock">加载中…</div>
+      <nav class="nav-links">
+        <a href="/">学生咨询</a>
+        <a href="/admin" class="active">管理后台</a>
+      </nav>
+    </header>
+
+    <div id="alertBox" class="alert"></div>
+
+    <section class="card">
+      <h2>人员空闲状态管理</h2>
+      <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 16px;">
+        设置「有空 / 忙碌 / 外出」后，学生端会实时看到是否可接受咨询。系统会自动结合工作时间判断是否处于办公时段。
+      </p>
+      <div class="admin-staff-grid" id="adminStaffList">
+        <div class="empty-state">正在加载…</div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>咨询申请记录</h2>
+      <div class="toolbar">
+        <div class="form-group">
+          <label for="statusFilter">状态筛选</label>
+          <select id="statusFilter">
+            <option value="">全部</option>
+            {% for value, label in status_labels.items() %}
+            <option value="{{ value }}">{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label>&nbsp;</label>
+          <button type="button" class="btn btn-secondary btn-sm" id="refreshConsultations">刷新</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>提交时间</th>
+              <th>学生</th>
+              <th>咨询对象</th>
+              <th>主题</th>
+              <th>状态</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody id="consultationTable">
+            <tr><td colspan="6" class="empty-state">暂无记录</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    window.AVAILABILITY_OPTIONS = {{ availability_options | tojson }};
+    window.STATUS_LABELS = {{ status_labels | tojson }};
+  </script>
+  <script src="{{ url_for('static', filename='admin.js') }}"></script>
+</body>
+</html>
